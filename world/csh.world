@@ -1,0 +1,41 @@
+# Desc: 2 create robots with laser for mapping
+# zjb Spring 2011
+
+# defines Pioneer-like robots
+include "irobot.inc"
+
+# defines 'map' object used for floorplans
+include "map.inc"
+
+# defines hokuyo laser
+include "hokuyo.inc"
+
+# size of the world in meters
+size [100 100]
+
+# set the resolution of the underlying raytrace model in meters
+resolution 0.02
+
+# configure the GUI window
+window
+(
+  size [ 591.000 638.000 ]
+  center [-0.010 -0.040]
+  scale 35.7
+)
+
+# load an environment bitmap
+floorplan
+(
+  bitmap "bitmaps/csh.png"
+  size [61.1 81.8 0.8]
+  name "csh"
+)
+
+# create a robot
+create
+(
+  name "robot1"
+  pose [-13 -3 0 45]
+  hokuyolaser( fov 240.0 samples 681 )
+) 
