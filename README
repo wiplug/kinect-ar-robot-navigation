@@ -1,4 +1,37 @@
 kinect-ar-robot-navigation
 ==========================
 
-Kinect and fiducial-based mobile robot navigation and localization system; written using libfreenect, the Player framework, and the Augmented Reality Toolkit Plus.
+Kinect and fiducial-based mobile robot navigation and localization system; written using libfreenect, OpenCV, the Player framework, and the Augmented Reality Toolkit Plus library.
+
+Created by Drew Stebbins as part of an Independent Study with Professor Zack Butler at the Rochester Institute of Technology.
+
+This software enables a mobile robot to perform visual marker-based localization and waypoint-based navigation and obstacle avoidance with (mostly) the Microsoft Kinect sensor.
+
+Localization
+------------
+ARToolkitPlus is used to generate ID-based planar visual markers, and perform camera pose reconstruction based on monocular views of each marker.
+The global coordinates of each marker are supplied to the software upon startup in a JSON file along with a set of waypoint descriptions. When the robot identifies a marker,
+it combines the marker location information with the relative camera pose reconstruction to construct a strong estimate for the pose of the robot in 2D (and eventually 3D) space.
+Using this pose estimate along with odometry information and optionally a floor plan of its environment, a particle filter method is used to produce a running estimate (and
+confidence value) for the robot's current pose.
+
+Navigation
+----------
+The goal of this system is to allow a robot to navigate reliably within an indoor environment for which a map may or may not be available.
+To do this, though a floor plan map (outlining all walls and doors) is not required, the user must specify a set of waypoints and their line-of-sight adjacencies.
+This enables the robot to perform shortest-path searches on the waypoint graph, and then simply execute "goto"-style subroutines to traverse each waypoint. 
+To avoid obstacles when traveling between waypoints, a potential fields approach is implemented using the Kinect sensor's depth camera.
+
+Building and using
+------------------
+
+This software is written specifically for use with the iRobot Create platform, which provides odometry and differential-drive motor control through the Player
+mobile robot programming framework. Further specific optimizations may be included in this source tree to enable the use of additional sensors mounted onto the
+research platform used for the completion of this Independent Study, such as PING ultrasonic range sensors connected via an Arduino over the serial interface.
+
+Dependencies:
+-------------
+* libfreenect: https://github.com/OpenKinect/libfreenect
+* OpenCV 2.3+ (probably works with 2.x; untested): http://code.opencv.org/
+* player 3.0.2: http://playerstage.sourceforge.net/ 
+* Augmented Reality Toolkit Plus: https://launchpad.net/artoolkitplus
