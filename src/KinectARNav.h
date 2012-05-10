@@ -14,19 +14,30 @@ using namespace cv;
 class KinectARNav 
 {
 	PlayerCc::Position2dProxy* pp;
+	
 	TrackerSingleMarker* tracker;
+	
 	freenect_context *f_ctx;
 	freenect_device *f_dev;
+
+	pthread_t kinect_reader_thread;
+	//pthread_t marker_finder_thread;
+	pthread_t localization_thread;
+	pthread_t navigation_thread;
 
 	Point3f* pose_ests;
 	Point3f pose_est;
 	Point3f goal;
+	
 	bool use_map_img;
+	
 	int pop_size;
+	
 	double conf;
 	double min_reset_conf;
 	double min_localized_conf;
 	double goal_threshold;
+	
 	Mat kinect_rgb_frame;
 	Mat kinect_depth_frame;
 
