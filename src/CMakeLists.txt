@@ -7,6 +7,9 @@ SET (CMAKE_MODULE_PATH "/usr/local/share/cmake/Modules")
 INCLUDE (UsePlayerC++)
 INCLUDE (UsePlayerPlugin)
 
+include_directories("/usr/local/include")
+link_directories("/usr/local/lib")
+
 set(SOURCEFILES main.cpp)
 
 #if (SDL_FOUND AND SDLMIXER_FOUND)
@@ -19,5 +22,9 @@ set(SOURCEFILES main.cpp)
 PLAYER_ADD_PLAYERCPP_CLIENT ( ${PROJECT_NAME} SOURCES ${SOURCEFILES})
 #target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARY} ${GLUT_LIBRARY} Xext X11 m png ${MIXERLIB})
 
-add_executable(client main.cpp)
+add_library(KinectARNav KinectARNav.cpp)
+target_link_libraries(KinectARNav freenect opencv_core)
+
+add_executable(example_client main.cpp)
+target_link_libraries(example_client KinectARNav)
 #target_link_libraries(test Xext X11 m ${MIXERLIB})
