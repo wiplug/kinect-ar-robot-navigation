@@ -13,7 +13,7 @@ PlayerCc::Position2dProxy* pp;
 
 KinectARNav* knav;
 
-const char* hostname = "localhost";
+string hostname = "localhost";
 int port = 6665;
 bool quitting = false;
 string cli_line;

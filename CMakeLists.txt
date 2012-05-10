@@ -5,6 +5,9 @@
 
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 
+# ARToolKitPlus installation directory (change to match yours)
+set(ARTKP_DIR /home/astebbin/Downloads/ARToolKitPlus-2.2.1)
+
 # Set your project name and version
 PROJECT (Kinect-AR-Nav)
 SET(PROJECT_VERSION 0.0.1 CACHE STRING "Kinect-AR Nav Version Number")

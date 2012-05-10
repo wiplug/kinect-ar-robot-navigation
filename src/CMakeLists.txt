@@ -26,10 +26,10 @@ add_library(KinectARNav KinectARNav.cpp)
 target_link_libraries(KinectARNav freenect opencv_core ARToolKitPlus)
 
 PLAYER_ADD_PLAYERCPP_CLIENT ( ${PROJECT_NAME} SOURCES ${SOURCEFILES})
-#target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARY} ${GLUT_LIBRARY} Xext X11 m png ${MIXERLIB})
+target_link_libraries(${PROJECT_NAME} KinectARNav)
 
-add_executable(example_client main.cpp)
-target_link_libraries(example_client KinectARNav)
+#add_executable(example_client main.cpp)
+#target_link_libraries(example_client KinectARNav)
 #target_link_libraries(test Xext X11 m ${MIXERLIB})
 
 #install(TARGETS example_client DESTINATION bin)

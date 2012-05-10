@@ -27,9 +27,8 @@ int main()
 	}
 
 	knav->shutdown();
-	delete knav;
+	//delete knav;
 	delete pp;
-	delete robot;
 
 	return 0;
 }
