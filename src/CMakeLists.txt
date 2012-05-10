@@ -8,7 +8,9 @@ INCLUDE (UsePlayerC++)
 INCLUDE (UsePlayerPlugin)
 
 include_directories("/usr/local/include")
+include_directories("${ARTKP_DIR}/include")
 link_directories("/usr/local/lib")
+link_directories("${ARTKP_DIR}/build/lib")
 
 set(SOURCEFILES main.cpp)
 
@@ -19,12 +21,16 @@ set(SOURCEFILES main.cpp)
 #    add_definitions("-DHAVE_SDLMIXER=1")
 #endif (SDL_FOUND AND SDLMIXER_FOUND)
 
-PLAYER_ADD_PLAYERCPP_CLIENT ( ${PROJECT_NAME} SOURCES ${SOURCEFILES})
-#target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARY} ${GLUT_LIBRARY} Xext X11 m png ${MIXERLIB})
 
 add_library(KinectARNav KinectARNav.cpp)
-target_link_libraries(KinectARNav freenect opencv_core)
+target_link_libraries(KinectARNav freenect opencv_core ARToolKitPlus)
+
+PLAYER_ADD_PLAYERCPP_CLIENT ( ${PROJECT_NAME} SOURCES ${SOURCEFILES})
+#target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARY} ${GLUT_LIBRARY} Xext X11 m png ${MIXERLIB})
 
 add_executable(example_client main.cpp)
 target_link_libraries(example_client KinectARNav)
 #target_link_libraries(test Xext X11 m ${MIXERLIB})
+
+#install(TARGETS example_client DESTINATION bin)
+install(TARGETS KinectARNav DESTINATION lib)
