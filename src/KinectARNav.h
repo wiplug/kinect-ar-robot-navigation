@@ -4,6 +4,7 @@
 #include "ARToolKitPlus/TrackerSingleMarker.h"
 #include "libfreenect/libfreenect.h"
 #include "opencv2/opencv.hpp"
+#include <json_spirit.h>
 #include <libplayerc++/playerc++.h>
 #include <pthread.h>
 

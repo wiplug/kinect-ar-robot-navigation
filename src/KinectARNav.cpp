@@ -2,12 +2,14 @@
 
 using namespace std;
 using namespace cv;
+using namespace json_spirit;
 
 KinectARNav::KinectARNav(const char* conf_filename, PlayerCc::Position2dProxy* pp_arg, const char* map_img_filename, int pop_size) 
 {
 	this->pop_size = pop_size;
 
 	// TODO: read known global marker coordinates from specified JSON file
+	Value conf_json;
 	
 	use_map_img = false;
 

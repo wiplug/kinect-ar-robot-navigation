@@ -23,7 +23,7 @@ set(SOURCEFILES main.cpp)
 
 
 add_library(KinectARNav KinectARNav.cpp)
-target_link_libraries(KinectARNav freenect opencv_core ARToolKitPlus)
+target_link_libraries(KinectARNav freenect opencv_core ARToolKitPlus json_spirit)
 
 PLAYER_ADD_PLAYERCPP_CLIENT ( ${PROJECT_NAME} SOURCES ${SOURCEFILES})
 target_link_libraries(${PROJECT_NAME} KinectARNav)

@@ -32,6 +32,7 @@ research platform used for the completion of this Independent Study, such as PIN
 Dependencies:
 -------------
 * pthreads
+* json-spirit: http://www.codeproject.com/Articles/20027/JSON-Spirit-A-C-JSON-Parser-Generator-Implemented (and in most package repositories)
 * libfreenect: https://github.com/OpenKinect/libfreenect
 * OpenCV 2.3+ (probably works with 2.x; untested): http://code.opencv.org/
 * player 3.0.2: http://playerstage.sourceforge.net/ 
