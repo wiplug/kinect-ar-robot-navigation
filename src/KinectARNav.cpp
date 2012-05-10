@@ -42,7 +42,29 @@ KinectARNav::KinectARNav(const char* conf_filename, PlayerCc::Position2dProxy* p
 
 void KinectARNav::run()
 {
-	// TODO: start client threads, connect to Kinect, and begin real-time particle filter localization
+	// TODO: start threads to connect to Kinect, begin real-time particle filter localization, and 
+	// perform potential field-based waypoint navigation as requested
+
+	int rc = pthread_create(&kinect_reader_thread, NULL, runKinectReader, NULL);
+      	
+	if (rc != 0) {
+		printf("ERROR; return code from pthread_create() is %d\n when starting Kinect reader thread", rc);
+		exit(-1);
+	}
+
+	rc = pthread_create(&localization_thread, NULL, runLocalizer, NULL);
+
+	if (rc != 0) {
+                printf("ERROR; return code from pthread_create() is %d\n when starting localization thread", rc);
+                exit(-1);
+        }
+	
+	rc = pthread_create(&navigation_thread, NULL, runNavigator, NULL);
+
+	if (rc != 0) {
+                printf("ERROR; return code from pthread_create() is %d\n when starting navigation thread", rc);
+                exit(-1);
+        }
 }
 
 void KinectARNav::shutdown()

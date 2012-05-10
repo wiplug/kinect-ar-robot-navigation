@@ -17,9 +17,6 @@ class KinectARNav
 	
 	TrackerSingleMarker* tracker;
 	
-	freenect_context *f_ctx;
-	freenect_device *f_dev;
-
 	pthread_t kinect_reader_thread;
 	//pthread_t marker_finder_thread;
 	pthread_t localization_thread;

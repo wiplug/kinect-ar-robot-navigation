@@ -14,6 +14,8 @@ int main()
 	//knav = new KinectARNav(conf_filename, pp, map_img_filename, int pop_siz);
 	knav = new KinectARNav("", pp, NULL, 10000);
 
+	// TODO: read waypoints file	
+
 	// TODO: enter basic control shell for KinectARNav library
 	while(!quitting)
 	{
