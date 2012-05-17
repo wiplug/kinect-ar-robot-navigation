@@ -1,2 +1,0 @@
-/home/astebbin/kinect-ar-robot-navigation/build/src/CMakeFiles/Kinect-AR-Nav.dir
-/home/astebbin/kinect-ar-robot-navigation/build/src/CMakeFiles/KinectARNav.dir

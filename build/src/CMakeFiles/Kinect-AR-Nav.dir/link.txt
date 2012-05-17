@@ -1,1 +1,0 @@
-/usr/bin/c++   -g -Wall     CMakeFiles/Kinect-AR-Nav.dir/main.o  -o Kinect-AR-Nav -rdynamic -L/usr/local/lib -L/home/astebbin/Downloads/ARToolKitPlus-2.2.1/build/lib -lplayerc++ -lplayerc -lm -lz -lplayerinterface -lplayerwkb -lplayercommon libKinectARNav.a -lfreenect -lopencv_core -lARToolKitPlus -ljson_spirit -Wl,-rpath,/usr/local/lib 
