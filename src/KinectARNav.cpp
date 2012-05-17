@@ -1,24 +1,20 @@
 #include "KinectARNav.h"
 
-using namespace std;
-using namespace cv;
-using namespace json_spirit;
-
 KinectARNav::KinectARNav() 
 {
-	ready = false;
+	lib_ready = false;
 }
 
-void KinectARNav::init(const char* conf_filename, PlayerCc::Position2dProxy* pp_arg, bool visualization_arg)
+void KinectARNav::init(string conf_filename, PlayerCc::Position2dProxy* pp_arg, bool visualization_arg)
 {
 	// TODO: parse JSON configuration file and initialize library objects
-	kinect_reader();
-	localizer();
-	navigator();
+	kinect_reader = new KinectReader();
+	localizer = new Localizer();
+	navigator = new Navigator();
 	
 	if(visualizing)
 	{
-		visualizer();
+		visualizer = new Visualizer();
 	}
 }
 
@@ -26,35 +22,50 @@ void KinectARNav::run()
 {
 	// TODO: start threads to connect to Kinect, begin real-time particle filter localization, and 
 	// perform potential field-based waypoint navigation as requested
-	kinect_reader.run();
-	localizer.run();
-	navigator.run();
+	kinect_reader->run();
+	localizer->run();
+	navigator->run();
 	
 	if(visualizing)
 	{
-		visualizer.run();
+		visualizer->run();
 	}
 
+	lib_ready = true;
+
+}
+
+bool KinectARNav::ready()
+{
+	return lib_ready;
 }
 
 void KinectARNav::shutdown()
 {
+	lib_ready = false;
+
 	// TODO: cleanly kill child threads and disconnect from devices
-	visualizer.shutdown();
-	navigator.shutdown();
-	localizer.shutdown();
-	kinect_reader.shutdown();
+	visualizer->shutdown();
+	navigator->shutdown();
+	localizer->shutdown();
+	kinect_reader->shutdown();
 }
 
 vector<double> KinectARNav::getPoseEst()
 {
 	vector<double> pose;
 
-	pose.push_back(localizer.getMeanX());
-	pose.push_back(localizer.getMeanY());
-	pose.push_back(localizer.getMeanTheta());
+	pose.push_back(localizer->getMeanX());
+	pose.push_back(localizer->getMeanY());
+	pose.push_back(localizer->getMeanTheta());
 
 	return pose;
+}
+
+vector<string> KinectARNav::getWaypoints()
+{
+	vector<string> wp;
+	return wp;
 }
 
 bool KinectARNav::setGoalWaypointByName(string waypoint_name)
@@ -76,17 +87,17 @@ bool KinectARNav::localized()
 
 bool KinectARNav::atGoal()
 {
-	return navigator.atGoal();
+	return navigator->atGoal();
 }
 
 double KinectARNav::getNavSpeed()
 {
-	return navigator.getSpeed();
+	return navigator->getSpeed();
 }
 
 double KinectARNav::getNavTurnRate()
 {
-	return navigator.getTurnRate();
+	return navigator->getTurnRate();
 }
 
 // TODO: add getters and setters for particle filter/potential fields/ARTKP/etc parameters

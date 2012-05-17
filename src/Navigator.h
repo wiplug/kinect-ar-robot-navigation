@@ -1,7 +1,7 @@
 #ifndef NAVIGATOR_H_
 #define NAVIGATOR_H_
 
-#include <pthread>
+#include <pthread.h>
 #include <cmath>
 
 class Navigator
@@ -17,6 +17,6 @@ public:
 	bool atGoal();
 	double getSpeed();
 	double getTurnRate();
-}
+};
 
 #endif /* NAVIGATOR_H_ */

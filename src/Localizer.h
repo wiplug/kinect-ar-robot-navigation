@@ -1,6 +1,7 @@
 #ifndef LOCALIZER_H_
 #define LOCALIZER_H_
 
+#include <pthread.h>
 #include <cmath>
 #include <string>
 #include <ARToolKitPlus/TrackerSingleMarker.h>
@@ -29,7 +30,7 @@ private:
 	string ar_calibration_filename;
 	double ar_nearclip;
 	double ar_farclip;
-	AR_PIXEL_FORMAT ar_pixel_format;
+	PIXEL_FORMAT ar_pixel_format;
 	double ar_patt_width;
 	double ar_border_width;
 	int ar_threshold;
@@ -49,7 +50,7 @@ private:
 	double theta_variance;
 
 	double resample_weight_threshold;
-	double reset_avg_conf_threshold
+	double reset_avg_conf_threshold;
 	double localized_conf_threshold;
 
 	hypothesis* hypotheses;
@@ -87,6 +88,6 @@ public:
 	double getYVariance();
 	
 	double getThetaVariance();
-}
+};
 
 #endif /* LOCALIZER_H_ */

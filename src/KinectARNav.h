@@ -5,23 +5,25 @@
 #include <pthread.h>
 #include <libplayerc++/playerc++.h>
 #include <json_spirit.h>
-#include "opencv2/opencv.hpp"
 #include "KinectReader.h"
 #include "Localizer.h"
 #include "Navigator.h"
 #include "Visualizer.h"
+
+using namespace json_spirit;
+using namespace std;
 
 class KinectARNav 
 {
 private:
 	PlayerCc::Position2dProxy* pp;
 	bool visualizing;
-	bool ready;
+	bool lib_ready;
 	Value config_file_json;
-	KinectReader kinect_reader;
-	Localizer localizer;
-	Navigator navigator;
-	Visualizer visualizer;
+	KinectReader* kinect_reader;
+	Localizer* localizer;
+	Navigator* navigator;
+	Visualizer* visualizer;
 
 public:
 	// default constructor
@@ -30,7 +32,7 @@ public:
 	// TODO: full initializing constructor for use of library w/o configuration file
 
 	// initialize library instance from specified configuration file
-	int init(const char* config_filename_arg, PlayerCc::Position2dProxy* pp_arg, bool visualization_arg);
+	void init(string config_filename_arg, PlayerCc::Position2dProxy* pp_arg, bool visualization_arg);
 
 	// start threads to read from Kinect, estimate position with particle filter, display visualization if
 	// specified, and compute navigation information
@@ -59,7 +61,7 @@ public:
 	bool setGoalWaypointById(int);
 
 	// returns true if pose estimate confidence is above threshold (as specified at initialization)
-	bool localized()
+	bool localized();
 
 	// returns true if localized position is within threshold distance of goal (as specified at initialization)
 	bool atGoal();

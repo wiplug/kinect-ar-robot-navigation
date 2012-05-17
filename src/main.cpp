@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 				pos += 2;
 			}
 			
-			config_filename = argv[pos];
+			config_fname = argv[pos];
 		}
 	} 
 	else
@@ -72,8 +72,8 @@ int main(int argc, char *argv[])
 	pp = new Position2dProxy(robot, 0);
 
 	// initialize and start KinectARNav library
-	KinectARNav knav();
-	knav.init(config_filename, pp, true);	
+	knav = new KinectARNav();
+	knav->init(config_fname, pp, true);	
 
 	// start real-time robot control thread
 	pthread_t realtime_control_thread;
@@ -93,9 +93,9 @@ int main(int argc, char *argv[])
 		{
 			navigating = false;
 		}
-		else if(li_line.compare("waypoints") == 0)
+		else if(cli_line.compare("waypoints") == 0)
 		{
-			vector<string> waypoint_names = knav.getWaypoints();
+			vector<string> waypoint_names = knav->getWaypoints();
 
 			for(int k = 0; k < waypoint_names.size(); k++)
 			{
@@ -112,14 +112,14 @@ int main(int argc, char *argv[])
 			{	
 				navigating = true;
 				string new_goal_name = "";
-				knav.setGoalWaypointByName(new_goal_name);
+				knav->setGoalWaypointByName(new_goal_name);
 				cout << "Navigating to new goal waypoint, name = " << new_goal_name << endl;
 			}
-			else if(command..compare("goto-id") == 0)
+			else if(command.compare("goto-id") == 0)
 			{
 				navigating = true;
 				int new_goal_id = 0;
-				knav.setGoalWaypointById(new_goal_id);
+				knav->setGoalWaypointById(new_goal_id);
 				cout << "Navigating to new goal waypoint, name = " << new_goal_id << endl;
 			}
 		}

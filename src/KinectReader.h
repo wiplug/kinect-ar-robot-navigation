@@ -1,9 +1,12 @@
 #ifndef KINECTREADER_H_
 #define KINECTREADER_H_
 
-#include <pthread>
+#include <pthread.h>
 #include "libfreenect/libfreenect.h"
 #include "opencv2/opencv.hpp"
+
+using namespace cv;
+using namespace std;
 
 class KinectReader{
 private:
@@ -11,8 +14,8 @@ private:
 
 	freenect_context *f_ctx;
 	freenect_device *f_dev;
-	freenect_video_format requested_format = FREENECT_VIDEO_RGB;
-        freenect_video_format current_format = FREENECT_VIDEO_RGB;
+	freenect_video_format requested_format;
+        freenect_video_format current_format;
 
 	int freenect_angle;
 	int freenect_led;
@@ -27,8 +30,7 @@ public:
 	
 	KinectReader();
 	void run();
-	void* thread_main(void*);
 	void shutdown();
-}
+};
 
 #endif /* KINECTREADER_H_ */

@@ -18,7 +18,9 @@ void Localizer::shutdown()
 {}
 
 void* Localizer::thread_main(void* arg)
-{}
+{
+	pthread_exit(NULL);
+}
 
 void Localizer::propagate(double distance, double angle)
 {}

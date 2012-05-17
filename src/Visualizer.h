@@ -1,7 +1,7 @@
 #ifndef VISUALIZER_H_
 #define VISUALIZER_H_
 
-#include <pthread>
+#include <pthread.h>
 #include <opencv2/opencv.hpp>
 
 class Visualizer
@@ -14,6 +14,6 @@ public:
 	Visualizer();
 	void run();
 	void shutdown();
-}
+};
 
 #endif /* VISUALIZER_H_ */

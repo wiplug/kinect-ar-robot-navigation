@@ -25,11 +25,15 @@ set(SOURCEFILES main.cpp)
 #endif (SDL_FOUND AND SDLMIXER_FOUND)
 
 
-add_library(KinectARNav KinectARNav.cpp KinectReader.cpp Localizer.cpp Navigator.cpp Visualizer.cpp)
-target_link_libraries(KinectARNav freenect opencv_core ARToolKitPlus json_spirit pthread)
+#add_library(KinectARNav SHARED KinectARNav.cpp KinectReader.cpp Localizer.cpp Navigator.cpp Visualizer.cpp)
+#target_link_libraries(KinectARNav freenect opencv_core ARToolKitPlus json_spirit pthread)
 
 PLAYER_ADD_PLAYERCPP_CLIENT ( ${PROJECT_NAME} SOURCES ${SOURCEFILES})
 target_link_libraries(${PROJECT_NAME} KinectARNav pthread)
+
+add_library(KinectARNav SHARED KinectARNav.cpp KinectReader.cpp Localizer.cpp Navigator.cpp Visualizer.cpp)
+target_link_libraries(KinectARNav freenect opencv_core ARToolKitPlus json_spirit pthread)
+
 
 #add_executable(example_client main.cpp)
 #target_link_libraries(example_client KinectARNav)
