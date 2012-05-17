@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall     CMakeFiles/example_client.dir/main.o  -o example_client -rdynamic -L/usr/local/lib -L/home/astebbin/Downloads/ARToolKitPlus-2.2.1/build/lib libKinectARNav.a -lfreenect -lopencv_core -lARToolKitPlus -Wl,-rpath,/usr/local/lib:/home/astebbin/Downloads/ARToolKitPlus-2.2.1/build/lib 

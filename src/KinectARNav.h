@@ -14,33 +14,20 @@ using namespace cv;
 class KinectARNav 
 {
 	PlayerCc::Position2dProxy* pp;
-	
 	TrackerSingleMarker* tracker;
 	
 	pthread_t kinect_reader_thread;
 	//pthread_t marker_finder_thread;
 	pthread_t localization_thread;
 	pthread_t navigation_thread;
-
-	Point3f* pose_ests;
-	Point3f pose_est;
-	Point3f goal;
 	
 	bool use_map_img;
-	
-	int pop_size;
-	
-	double conf;
-	double min_reset_conf;
-	double min_localized_conf;
-	double goal_threshold;
-	
-	Mat kinect_rgb_frame;
-	Mat kinect_depth_frame;
 
 public:
 	// create new library instance
-	KinectARNav(const char* conf_filename, PlayerCc::Position2dProxy* pp_arg, const char* map_img_filename=NULL, int pop_size=2000);
+	KinectARNav();
+
+	int init(const char* conf_filename, PlayerCc::Position2dProxy* pp_arg, const char* waypoints_filename=NULL  const char* map_img_filename=NULL, int pop_size=2000);
 
 	// start client threads, connect to Kinect, and begin real-time particle filter localization
 	void run();
@@ -50,7 +37,7 @@ public:
 	
 	// get current robot pose estimate, in form (x, y, theta)
 	// TODO: include z estimate (for outdoors, sloped surfances, etc)?
-	Point3f getPoseEst();
+	vector<double> getPoseEst();
 	
 	// get confidence of localization estimate; ranges from 0.0 (no confidence) to 1.0 (full confidence)
 	double getEstConf();
