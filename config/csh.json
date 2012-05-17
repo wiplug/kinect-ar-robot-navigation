@@ -44,7 +44,7 @@
                         "name" : "vator_buttons",
                         "x" : 466,
                         "y" : 1291,
-                        "z" : 180
+                        "theta" : 180
                 },
 		{
                         "id" : 5,
