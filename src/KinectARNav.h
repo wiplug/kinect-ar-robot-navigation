@@ -2,6 +2,7 @@
 #define KINECTARNAV_H_
 
 #include <iostream>
+#include <fstream>
 #include <pthread.h>
 #include <libplayerc++/playerc++.h>
 #include <json_spirit.h>
@@ -19,7 +20,7 @@ private:
 	PlayerCc::Position2dProxy* pp;
 	bool visualizing;
 	bool lib_ready;
-	Value config_file_json;
+	Value json_value;
 	KinectReader* kinect_reader;
 	Localizer* localizer;
 	Navigator* navigator;

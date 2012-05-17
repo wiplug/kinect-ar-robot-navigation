@@ -20,17 +20,23 @@ void* realtime_control(void* arg)
 
 		if(navigating)
 		{
-			// TODO: after non-blocking check on whether KinectARNav is ready (must
-			// block as Create data must be de-buffered at a minimum of 10Hz), read
+			// After non-blocking check on whether KinectARNav is ready (need to
+			// block as Create data must be de-buffered at a 10Hz minimum), read
 			// speed and turnrate values
+			if(knav->ready())
+			{
+				speed = knav->getNavSpeed();
+				turnrate = knav->getNavTurnRate();
+			}
 
-			// TODO: also do last-minute object avoidance with Brobot (specific RIT robot platform)'s sonar?
+			// TODO: for Independent Study purposes, also do last-minute object avoidance 
+			// with Brobot (RIT-specifc robot research platform)'s sonar?
 		}
 
                 pp->SetSpeed(speed, turnrate);
         }
 
-	// TODO: set flag to indicate realtime control thread has shutdown cleanly
+	// TODO: signal that realtime control thread has shutdown cleanly
 
         pthread_exit(NULL);
 }
@@ -79,7 +85,7 @@ int main(int argc, char *argv[])
 	pthread_t realtime_control_thread;
         pthread_create( &realtime_control_thread, NULL, realtime_control, NULL );
 
-	// TODO: enter basic control shell for KinectARNav library
+	// enter basic control shell for KinectARNav library
 	while(!quitting)
 	{
 		cout << ">> ";
@@ -97,7 +103,7 @@ int main(int argc, char *argv[])
 		{
 			vector<string> waypoint_names = knav->getWaypoints();
 
-			for(int k = 0; k < waypoint_names.size(); k++)
+			for(unsigned int k = 0; k < waypoint_names.size(); k++)
 			{
 				cout << "Waypoint " << k << ": " << waypoint_names[k] << endl;
 			}
@@ -107,7 +113,7 @@ int main(int argc, char *argv[])
 			// TODO: tokenize and parse goto-command
 			string command = "goto-id";
 
-			// TODO: tokenize and parse goto-command arg
+			// TODO: tokenize and parse command arg
 			if(command.compare("goto") == 0)
 			{	
 				navigating = true;

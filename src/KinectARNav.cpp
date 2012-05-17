@@ -8,6 +8,9 @@ KinectARNav::KinectARNav()
 void KinectARNav::init(string conf_filename, PlayerCc::Position2dProxy* pp_arg, bool visualization_arg)
 {
 	// TODO: parse JSON configuration file and initialize library objects
+	ifstream fs( conf_filename.c_str() );
+	read(fs, json_value);
+
 	kinect_reader = new KinectReader();
 	localizer = new Localizer();
 	navigator = new Navigator();
