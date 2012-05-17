@@ -1,0 +1,31 @@
+{
+	"map_height" : 1000,
+	"map_width" : 1000,
+	"map_fname" : null,
+	"map_pix_to_inch" : null,
+	"pf_pop_size" : 5000,
+	"pf_localized_conf_threshold" : 0.8,
+	"pf_resample_conf_threshold" : 0.3,
+	"pf_reset_avg_conf_threshold" : 0.3,
+	"pf_min_reset_iterations_interval" : 500,
+	"ar_calibration_filename" : "../../config/PGR_M12x0.5_2.5mm.cal",
+	"ar_nearclip" : 1.0,
+	"ar_farclip" : 1000.0,
+	"ar_pixel_format" : "LUM",
+	"ar_pattern_width" : 2.0,
+	"ar_border_width" : 0.25,
+	"ar_threshold" : 150,
+
+	"ar_markers" :
+	[
+		{
+			"id" : 1,
+			"name" : "marker1",
+			"x" : 500,
+			"y" : 500,
+			"theta" : 90
+		}
+	],
+
+	"waypoints" : null
+}

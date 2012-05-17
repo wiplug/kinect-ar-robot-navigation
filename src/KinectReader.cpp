@@ -1,8 +1,18 @@
 #include "KinectReader.h"
 
-void runKinectReader()
+KinectReader::KinectReader()
+{
+	kinect_rgb_frame = Mat(480, 640, CV_8UC3);
+        kinect_depth_frame = Mat(480, 640, CV_8UC1);
+}
+
+void KinectReader::run()
 {
 
+}
+
+void* KinectReader::thread_main(void* arg)
+{
 	if (freenect_init(&f_ctx, NULL) < 0) {
                 printf("freenect_init() failed\n");
                 return 1;
@@ -22,6 +32,8 @@ void runKinectReader()
                 return 1;
         }
 
-	// TODO: loop until told to stop; populate RGBD buffer(s) in thread-safe manner
-
+	// TODO: loop until signaled to stop; populate RGBD buffer(s) in thread-safe manner
 }
+
+void KinectReader::shutdown()
+{}

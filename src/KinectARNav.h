@@ -1,68 +1,77 @@
 #ifndef KINECTARNAV_H_
 #define KINECTARNAV_H_
 
-#include "ARToolKitPlus/TrackerSingleMarker.h"
-#include "libfreenect/libfreenect.h"
-#include "opencv2/opencv.hpp"
-#include <json_spirit.h>
-#include <libplayerc++/playerc++.h>
+#include <iostream>
 #include <pthread.h>
-
-using ARToolKitPlus::TrackerSingleMarker;
-using namespace cv;
+#include <libplayerc++/playerc++.h>
+#include <json_spirit.h>
+#include "opencv2/opencv.hpp"
+#include "KinectReader.h"
+#include "Localizer.h"
+#include "Navigator.h"
+#include "Visualizer.h"
 
 class KinectARNav 
 {
+private:
 	PlayerCc::Position2dProxy* pp;
-	TrackerSingleMarker* tracker;
-	
-	pthread_t kinect_reader_thread;
-	//pthread_t marker_finder_thread;
-	pthread_t localization_thread;
-	pthread_t navigation_thread;
-	
-	bool use_map_img;
+	bool visualizing;
+	bool ready;
+	Value config_file_json;
+	KinectReader kinect_reader;
+	Localizer localizer;
+	Navigator navigator;
+	Visualizer visualizer;
 
 public:
-	// create new library instance
+	// default constructor
 	KinectARNav();
 
-	int init(const char* conf_filename, PlayerCc::Position2dProxy* pp_arg, const char* waypoints_filename=NULL  const char* map_img_filename=NULL, int pop_size=2000);
+	// TODO: full initializing constructor for use of library w/o configuration file
 
-	// start client threads, connect to Kinect, and begin real-time particle filter localization
+	// initialize library instance from specified configuration file
+	int init(const char* config_filename_arg, PlayerCc::Position2dProxy* pp_arg, bool visualization_arg);
+
+	// start threads to read from Kinect, estimate position with particle filter, display visualization if
+	// specified, and compute navigation information
 	void run();
 
-	// cleanly kill child threads and disconnect from devices
+	// returns true if child threads have been successfully started, and library instance is ready to
+	// be polled for localization and navigation information
+	bool ready();
+
+	// disconnect from device and halt child threads
 	void shutdown();
 	
 	// get current robot pose estimate, in form (x, y, theta)
-	// TODO: include z estimate (for outdoors, sloped surfances, etc)?
+	// Major-version TODO: include option for z-estimate (for variable terrain with sloped surfaces etc.)
 	vector<double> getPoseEst();
-	
-	// get confidence of localization estimate; ranges from 0.0 (no confidence) to 1.0 (full confidence)
-	double getEstConf();
 
-	// set minimum aggregate estimate confidence, below which we will completely reinitialize PF every N iterations
-	// TODO: specify or paramterize N
-	void setMinResetConf(double min_conf);
+	// return id-ordered list of waypoint names
+	vector<string> getWaypoints();
 
-	// set minimum confidence value above which we consider the localization estimate to be sufficient for navigation
-	void setMinLocalizedConf(double min_conf);
+	// set new goal waypoint for navigation system according to string waypoint name value; returns 
+	// true if specified waypoint exists and is reachable, false otherwise
+	bool setGoalWaypointByName(string);
 
-	// set new goal for potential fields navigation algorithm
-	void setGoal(Point3f goal);
+	// set new goal waypoint for navigation system according to int waypoint id value; returns true
+	// if specified waypoint exists and is reachable, false otherwise
+	bool setGoalWaypointById(int);
 
-	// set goal x,y distance threshold
-	void setGoalDistThreshold(double goal_threshold);
+	// returns true if pose estimate confidence is above threshold (as specified at initialization)
+	bool localized()
 
-	// returns true if current pose estimate is within given threshold distance of goal, and conf > 0.85
+	// returns true if localized position is within threshold distance of goal (as specified at initialization)
 	bool atGoal();
 
-	// get speed to set as calculated by potential fields navigation algorithm
-	double getSpeed();
+	// get speed to set in order to navigate towards next waypoint on path to goal, as calculated by potential 
+	// fields navigation/obstacle avoidance algorithm
+	double getNavSpeed();
 	
-	// get angular speed to set as calculated by potential fields navigation algorithm
-	double getAngularSpeed(); 
+	// get angular speed to set (see above)
+	double getNavTurnRate(); 
+
+	// TODO: post-initialization accessors and modifiers for ARTK+/potential field/particle filter parameters
 };
 
 #endif /* KINECTARNAV_H_ */
